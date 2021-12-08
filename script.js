@@ -16,6 +16,7 @@ let picker22 = document.getElementById('picker22');
 let angle = document.getElementById('angle');
 let display = document.getElementById('display');
 let gradientType = document.getElementById('gradientType');
+let selectors = document.getElementById('selectors');
 angle.value = 0;
 let red1 = 0;
 let red2 = 0;
@@ -124,4 +125,15 @@ function copy() {
     copyText.setSelectionRange(0, 99999);
     navigator.clipboard.writeText(copyText.value);
     alert("Copied To Clipboard");
+}
+let flag = true;
+function hide(){
+    if(flag){
+        selectors.style.display = "none";
+        flag = false;
+    }
+    else{
+        selectors.style.display = "flex";
+        flag = true;
+    }
 }

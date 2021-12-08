@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <div class="selectors">
+    <div class="selectors" id="selectors">
         <div class="pickers">
             <div class="parent" id="picker1" onclick="changeColor1()">
                 <div class="color1 color" id="color1"></div>
@@ -62,12 +62,15 @@
         <div class="range" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
             <div class="field">
                 <div class="value left">Alpha</div>
-                <input type="range" min="0" max="100" value="100" steps="0" id="input4" oninput="changeGradient()">
+                <input type="range" min="0" max="100" value="100" steps="1" id="input4" oninput="changeGradient()">
                 <div class="value right" id="ans4">1</div>
             </div>
         </div>
         <textarea id="display" cols="30" rows="10" onfocus="shiftFocus()"></textarea>
-        <button onclick="copy()">Copy</button>
+        <button class="copy" onclick="copy()">Copy</button>
+    </div>
+    <div class="toggle">
+        <button class="hide" onclick="hide()">Hide</button>
     </div>
     <script src="script.js"></script>
 </body>
