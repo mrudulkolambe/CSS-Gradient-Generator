@@ -17,6 +17,13 @@ let angle = document.getElementById('angle');
 let display = document.getElementById('display');
 let gradientType = document.getElementById('gradientType');
 let selectors = document.getElementById('selectors');
+let addItem = document.getElementById('addItem');
+let prompt = document.getElementById('prompt');
+let overlay = document.getElementById('overlay');
+let presetName = document.getElementById('name');
+let alert1 = document.getElementById('alert');
+let presets = document.getElementById('presets');
+let presetContainer = document.getElementById('presetContainer');
 angle.value = 0;
 let red1 = 0;
 let red2 = 0;
@@ -60,7 +67,7 @@ function changeGradient() {
         alert("Invalid Value Of Angle");
         angle.value = 0;
     }
-    else if(angle.value.length == 0){
+    else if (angle.value.length == 0) {
         angle.value = 0;
     }
     if (gradientType.checked) {
@@ -85,7 +92,7 @@ function changeGradient() {
                 ans1.innerText = red1;
                 ans2.innerText = green1;
                 ans3.innerText = blue1;
-                ans4.innerText = alpha1 * 100;
+                ans4.innerText = alpha1;
                 picker11.innerText = `rgba(${red1}, ${green1}, ${blue1}, ${alpha1})`;
             }
             else if (id = "color2") {
@@ -96,7 +103,7 @@ function changeGradient() {
                 ans1.innerText = red2;
                 ans2.innerText = green2;
                 ans3.innerText = blue2;
-                ans4.innerText = alpha2 * 100;
+                ans4.innerText = alpha2;
                 picker22.innerText = `rgba(${red2}, ${green2}, ${blue2}, ${alpha2})`;
             }
             generate(type);
@@ -124,16 +131,139 @@ function copy() {
     copyText.select();
     copyText.setSelectionRange(0, 99999);
     navigator.clipboard.writeText(copyText.value);
-    alert("Copied To Clipboard");
+    showAlert("<strong>Message : </strong> &nbsp; Copied To Clipboard");
+    setTimeout(() => {
+        overlay.style.display = "none";
+    }, 2000);
 }
 let flag = true;
-function hide(){
-    if(flag){
+function hide(elem) {
+    if (flag) {
         selectors.style.display = "none";
         flag = false;
+        elem.innerHTML = 'Show';
     }
-    else{
+    else {
         selectors.style.display = "flex";
         flag = true;
+        elem.innerHTML = 'Hide';
     }
+}
+
+function addToList() {
+    if (presetName.value.length == 0) {
+        showAlert("<strong>Invalid Input</strong> &nbsp; Cannot Add To Favourite");
+    } else {
+        let colorObj = {
+            storagered1: red1,
+            storageblue1: blue1,
+            storagegreen1: green1,
+            storagealpha1: alpha1,
+            storagered2: red2,
+            storageblue2: blue2,
+            storagegreen2: green2,
+            storagealpha2: alpha2,
+            storageangle: angle.value,
+            storagetype: type
+        }
+        let colorObjString = JSON.stringify(colorObj);
+        addItem.classList.remove('bi-heart');
+        addItem.classList.add('bi-heart-fill');
+        localStorage.setItem(presetName.value, colorObjString);
+        toggleModal();
+        presetName.value = "";
+    }
+
+}
+let flag1 = false;
+function toggleModal() {
+    if (flag1) {
+        overlay.style.display = "none";
+        prompt.style.display = "none";
+        flag1 = false;
+    } else {
+        overlay.style.display = "block";
+        prompt.style.display = "flex";
+        flag1 = true;
+    }
+}
+let flag2 = false;
+function togglePreset() {
+    if (!flag2) {
+        presets.style.display = "block";
+        overlay.style.display = "block";
+        flag2 = true;
+        presetContainer.innerHTML = "";
+        allStorage();
+    } else {
+        presets.style.display = "none";
+        overlay.style.display = "none";
+        flag2 = false;
+    }
+}
+function allStorage() {
+    let background;
+    var archive = [],
+        keys = Object.keys(localStorage),
+        i = 0, key;
+    for (; key = keys[i]; i++) {
+        let obj = JSON.parse(localStorage.getItem(key));
+        if (obj.storagetype == "linear-gradient") {
+            background = `${obj.storagetype}(${obj.storageangle}deg, rgba(${obj.storagered1}, ${obj.storagegreen1}, ${obj.storageblue1}, ${obj.storagealpha1}), rgba(${obj.storagered2}, ${obj.storagegreen2}, ${obj.storageblue2}, ${obj.storagealpha2}))`;
+        } else {
+            background = `${obj.storagetype}(circle, rgba(${obj.storagered1}, ${obj.storagegreen1}, ${obj.storageblue1}, ${obj.storagealpha1}), rgba(${obj.storagered2}, ${obj.storagegreen2}, ${obj.storageblue2}, ${obj.storagealpha2}))`;
+        }
+        console.log(background);
+        presetContainer.innerHTML += `
+        <div class="presetId">
+                <div class="presetName" onclick="loadPreset('${key}')">
+                    <strong>${key}</strong>
+                </div>
+                <div class="presetColor" onclick="loadPreset('${key}')">
+                    <div class="presetBox" style="background: ${background}"></div>
+                </div>
+            </div>
+        `
+    }
+}
+
+function showAlert(text) {
+    alert1.classList.remove('slideUp');
+    alert1.classList.add('slideDown');
+    overlay.style.display = "block";
+    alert1.innerHTML = `${text}`;
+    setTimeout(() => {
+        alert1.classList.remove('slideDown');
+        alert1.classList.add('slideUp');
+        alert1.innerHTML = "";
+    }, 2000);
+}
+
+function loadPreset(key){
+    let obj = JSON.parse(localStorage.getItem(key));
+    red1 = obj.storagered1;
+    green1 = obj.storagegreen1;
+    blue1 = obj.storageblue1;
+    alpha1 = obj.storagealpha1;
+    red2 = obj.storagered2;
+    green2 = obj.storagegreen2;
+    blue2 = obj.storageblue2;
+    alpha2 = obj.storagealpha2;
+    angle.value = obj.storageangle;
+    type = obj.storagetype;
+    changeColor2();
+    changeColor1();
+    color1.style.background = `rgba(${red1}, ${green1}, ${blue1}, ${alpha1})`;
+    picker11.innerHTML = `rgba(${red1}, ${green1}, ${blue1}, ${alpha1})`
+    color2.style.background = `rgba(${red2}, ${green2}, ${blue2}, ${alpha2})`;
+    picker22.innerHTML = `rgba(${red2}, ${green2}, ${blue2}, ${alpha2})`
+    if (obj.storagetype == "radial-gradient") {
+        angle.disabled = true;
+        gradientType.checked = true;
+    } else if (obj.storagetype == "linear-gradient") {
+        gradientType.checked = false;
+        angle.disabled = false;
+    }
+    changeGradient();
+    togglePreset();
 }

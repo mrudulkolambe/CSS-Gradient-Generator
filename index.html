@@ -5,11 +5,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.7.2/font/bootstrap-icons.min.css"/>
     <title>Gradient Generator</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <button class="preset" onclick="togglePreset()">Load Presets</button>
+    <div class="presets" id="presets">
+        <div class="promptHeader">
+            <h3>Presets</h3>
+            <i onclick="togglePreset()" class="bi bi-x-lg"></i>
+        </div>
+        <div class="preset-container" id="presetContainer"></div>
+    </div>
+    <div class="alert" id="alert"></div>
+    <div onclick="toggleModal()" class="list">
+        <i class="bi bi-heart" id="addItem"></i>
+    </div>
     <div class="selectors" id="selectors">
         <div class="pickers">
             <div class="parent" id="picker1" onclick="changeColor1()">
@@ -70,7 +83,18 @@
         <button class="copy" onclick="copy()">Copy</button>
     </div>
     <div class="toggle">
-        <button class="hide" onclick="hide()">Hide</button>
+        <button class="hide" onclick="hide(this)">Hide</button>
+    </div>
+    <div class="overlay" id="overlay"></div>
+    <div class="prompt" id="prompt">
+        <div class="promptHeader">
+            <h3>Enter The Name</h3>
+            <i onclick="toggleModal()" class="bi bi-x-lg"></i>
+        </div>
+        <div>
+            <input type="text" name="" id="name" autocomplete="off" placeholder="Enter The Preset Name">
+            <button onclick="addToList()">Add</button>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
