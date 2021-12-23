@@ -34,6 +34,20 @@ let blue2 = 0;
 let alpha1 = 1;
 let alpha2 = 1;
 let type = "linear-gradient";
+const presetToggle = document.getElementById('presetToggle');
+presetToggle.addEventListener('click', () => { 
+    if (!flag2) {
+        presets.style.display = "block";
+        overlay.style.display = "block";
+        flag2 = true;
+        presetContainer.innerHTML = "";
+        allStorage();
+    } else {
+        presets.style.display = "none";
+        overlay.style.display = "none";
+        flag2 = false;
+    }
+});
 function changeColor1() {
     inputSlider1.value = red1;
     inputSlider2.value = green1;
@@ -118,7 +132,7 @@ function generate(type) {
     } else {
         finalAngle = "circle";
     }
-    let body = document.querySelector("body");
+    let body = document.querySelector(".bg");
     finalGradient = `${type}(${finalAngle}, rgba(${red1}, ${green1}, ${blue1}, ${alpha1}), rgba(${red2}, ${green2}, ${blue2}, ${alpha2}))`;
     body.style.background = finalGradient;
     display.innerText = finalGradient;
@@ -167,8 +181,6 @@ function addToList() {
             storagetype: type
         }
         let colorObjString = JSON.stringify(colorObj);
-        addItem.classList.remove('bi-heart');
-        addItem.classList.add('bi-heart-fill');
         localStorage.setItem(presetName.value, colorObjString);
         toggleModal();
         presetName.value = "";
@@ -213,7 +225,6 @@ function allStorage() {
         } else {
             background = `${obj.storagetype}(circle, rgba(${obj.storagered1}, ${obj.storagegreen1}, ${obj.storageblue1}, ${obj.storagealpha1}), rgba(${obj.storagered2}, ${obj.storagegreen2}, ${obj.storageblue2}, ${obj.storagealpha2}))`;
         }
-        console.log(background);
         presetContainer.innerHTML += `
         <div class="presetId">
                 <div class="presetName" onclick="loadPreset('${key}')">
@@ -267,3 +278,14 @@ function loadPreset(key){
     changeGradient();
     togglePreset();
 }
+
+function togglePictureInPicture() {
+    if (document.pictureInPictureElement) {
+        document.exitPictureInPicture();
+    } else {
+      if (document.pictureInPictureEnabled) {
+        document.querySelector("container-parent").requestPictureInPicture();
+      }
+    }
+  }
+  

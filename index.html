@@ -5,85 +5,89 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.7.2/font/bootstrap-icons.min.css"/>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.7.2/font/bootstrap-icons.min.css" />
     <title>Gradient Generator</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <button class="preset" onclick="togglePreset()">Load Presets</button>
     <div class="presets" id="presets">
         <div class="promptHeader">
             <h3>Presets</h3>
-            <i onclick="togglePreset()" class="bi bi-x-lg"></i>
+            <i id="presetToggle" class="bi bi-x-lg"></i>
         </div>
         <div class="preset-container" id="presetContainer"></div>
     </div>
     <div class="alert" id="alert"></div>
-    <div onclick="toggleModal()" class="list">
-        <i class="bi bi-heart" id="addItem"></i>
-    </div>
-    <div class="selectors" id="selectors">
-        <div class="pickers">
-            <div class="parent" id="picker1" onclick="changeColor1()">
-                <div class="color1 color" id="color1"></div>
-                <div class="picker-value" id="picker11">
-                    rgba(0 ,0 ,0, 1)
+    <div class="container-parent">
+        <div class="bg">
+            <div onclick="toggleModal()" class="list">
+                <i class="bi bi-heart" id="addItem"></i>
+            </div>
+        </div>
+        <div class="selectors" id="selectors">
+            <div class="pickers">
+                <div class="parent" id="picker1" onclick="changeColor1()">
+                    <div class="color1 color" id="color1"></div>
+                    <div class="picker-value" id="picker11">
+                        rgba(0 ,0 ,0, 1)
+                    </div>
+                </div>
+                <div class="parent" id="picker2" onclick="changeColor2()">
+                    <div class="color2 color" id="color2"></div>
+                    <div class="picker-value" id="picker22">
+                        rgba(0 ,0 ,0, 1)
+                    </div>
                 </div>
             </div>
-            <div class="parent" id="picker2" onclick="changeColor2()">
-                <div class="color2 color" id="color2"></div>
-                <div class="picker-value" id="picker22">
-                    rgba(0 ,0 ,0, 1)
+            <div class="container">
+                <div class="angle" id="angleContainer">
+                    <label for="angle">Angle : </label>
+                    <input type="number" id="angle" min="0" max="359" oninput="changeGradient()">
+                </div>
+                <div class="type">
+                    <div class="type-text">Linear-Gradient</div>
+                    <label class="switch"><input id="gradientType" oninput="changeGradient()" type="checkbox" />
+                        <div></div>
+                    </label>
+                    <div class="type-text">Radial-Gradient</div>
                 </div>
             </div>
-        </div>
-        <div class="container">
-            <div class="angle" id="angleContainer">
-                <label for="angle">Angle : </label>
-                <input type="number" id="angle" min="0" max="359" oninput="changeGradient()">
+            <div class="range" style="border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                <div class="field">
+                    <div class="value left">Red</div>
+                    <input type="range" min="0" max="255" value="0" steps="0" id="input1" oninput="changeGradient()">
+                    <div class="value right" id="ans1">0</div>
+                </div>
             </div>
-            <div class="type">
-                <div class="type-text">Linear-Gradient</div>
-                <label class="switch"><input id="gradientType" oninput="changeGradient()" type="checkbox"/>
-                    <div></div>
-                </label>
-                <div class="type-text">Radial-Gradient</div>
+            <div class="range">
+                <div class="field">
+                    <div class="value left">Green</div>
+                    <input type="range" min="0" max="255" value="0" steps="0" id="input2" oninput="changeGradient()">
+                    <div class="value right" id="ans2">0</div>
+                </div>
             </div>
-        </div>
-        <div class="range" style="border-top-left-radius: 10px; border-top-right-radius: 10px;">
-            <div class="field">
-                <div class="value left">Red</div>
-                <input type="range" min="0" max="255" value="0" steps="0" id="input1" oninput="changeGradient()">
-                <div class="value right" id="ans1">0</div>
+            <div class="range">
+                <div class="field">
+                    <div class="value left">Blue</div>
+                    <input type="range" min="0" max="255" value="0" steps="0" id="input3" oninput="changeGradient()">
+                    <div class="value right" id="ans3">0</div>
+                </div>
             </div>
-        </div>
-        <div class="range">
-            <div class="field">
-                <div class="value left">Green</div>
-                <input type="range" min="0" max="255" value="0" steps="0" id="input2" oninput="changeGradient()">
-                <div class="value right" id="ans2">0</div>
+            <div class="range" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+                <div class="field">
+                    <div class="value left">Alpha</div>
+                    <input type="range" min="0" max="100" value="100" steps="1" id="input4" oninput="changeGradient()">
+                    <div class="value right" id="ans4">1</div>
+                </div>
             </div>
-        </div>
-        <div class="range">
-            <div class="field">
-                <div class="value left">Blue</div>
-                <input type="range" min="0" max="255" value="0" steps="0" id="input3" oninput="changeGradient()">
-                <div class="value right" id="ans3">0</div>
-            </div>
-        </div>
-        <div class="range" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
-            <div class="field">
-                <div class="value left">Alpha</div>
-                <input type="range" min="0" max="100" value="100" steps="1" id="input4" oninput="changeGradient()">
-                <div class="value right" id="ans4">1</div>
+            <textarea id="display" cols="30" rows="10" onfocus="shiftFocus()"></textarea>
+            <div>
+                <button class="copy" onclick="copy()">Copy</button>
+                <button class="preset" onclick="togglePreset()">Load Presets</button>
             </div>
         </div>
-        <textarea id="display" cols="30" rows="10" onfocus="shiftFocus()"></textarea>
-        <button class="copy" onclick="copy()">Copy</button>
-    </div>
-    <div class="toggle">
-        <button class="hide" onclick="hide(this)">Hide</button>
     </div>
     <div class="overlay" id="overlay"></div>
     <div class="prompt" id="prompt">

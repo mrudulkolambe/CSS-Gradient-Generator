@@ -18,6 +18,21 @@ html,body{
 body{
   background: #ddd;
 }
+.container-parent{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  box-shadow: 4px 4px 8px rgba(0,0,0,0.4);
+  border-radius: 8px;
+}
+.bg{
+  height: 100%;
+  width: 375px;
+  background-color: red;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
 .selectors{
   width: max-content;
   display: flex;
@@ -26,15 +41,14 @@ body{
   flex-direction: column;
   background-color: white;
   padding: 10px;
-  border-radius: 10px;
   z-index: 0;
-  box-shadow: 4px 4px 8px rgba(0,0,0,0.4);
+  border-radius: 8px;
 }
 .range{
   height: 65px;
   width: max-content;
   background: #fff;
-  padding: 0 65px ;
+  /* padding: 0 40px; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -85,8 +99,8 @@ body{
   display: grid;
   grid-template-columns: 1fr;
   column-gap: 150px;
-  padding: 20px 60px;
-  width: 100%;
+  /* padding: 20px 40px; */
+  width: 95%;
   background-color: white;
 }
 .display{
@@ -109,6 +123,7 @@ input::-webkit-inner-spin-button {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 10px 0;
 }
 .color{
   height: 50px;
@@ -234,13 +249,6 @@ textarea::-webkit-scrollbar{
   height: 5%;
   z-index: 1000;
 }
-.preset{
-  margin: 0;
-  position: absolute;
-  top: 3%;
-  left: 75%;
-  transform: translate(-50%, 0%);
-}
 .presets{
   padding: 15px 30px;
   padding-top: 0;
@@ -324,42 +332,15 @@ textarea::-webkit-scrollbar{
      -moz-transform: translate3d(100%, 0, 0);
           transform: translate3d(100%, 0, 0);
 }
-@media only screen and (max-width: 600px) {
-  body{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .selectors{
-    padding: 10px;
-    transform: scale(0.8, 0.8);
-  }
-  .pickers{
-    border-radius: 10px;
-    margin: 0 auto;
-  }
-  .parent{
-    margin: 0 auto;
-  }
-  .range{
-    padding: 0 20px;
-    height: 40px;
-  }
-  .hide{
-    top: 95%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-}
 .list{
   color: white;
-  position: absolute;
+  position: relative;
   top: 3%;
-  right: 3%;
-  font-size: 18px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  left: -41%;
+}
+.list:hover{
+  transform: scale(1.05, 1.05);
+  color: #FF007F;
 }
 .slideUp{
   animation: slideUp 0.5s forwards;
