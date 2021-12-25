@@ -24,6 +24,10 @@ let presetName = document.getElementById('name');
 let alert1 = document.getElementById('alert');
 let presets = document.getElementById('presets');
 let presetContainer = document.getElementById('presetContainer');
+let download = document.getElementById('download');
+let downloadType = document.getElementById('download-type');
+let canvas = document.getElementById('canvas');
+let fileName = document.getElementById('fileName');
 angle.value = 0;
 let red1 = 0;
 let red2 = 0;
@@ -35,7 +39,7 @@ let alpha1 = 1;
 let alpha2 = 1;
 let type = "linear-gradient";
 const presetToggle = document.getElementById('presetToggle');
-presetToggle.addEventListener('click', () => { 
+presetToggle.addEventListener('click', () => {
     if (!flag2) {
         presets.style.display = "block";
         overlay.style.display = "block";
@@ -135,6 +139,7 @@ function generate(type) {
     let body = document.querySelector(".bg");
     finalGradient = `${type}(${finalAngle}, rgba(${red1}, ${green1}, ${blue1}, ${alpha1}), rgba(${red2}, ${green2}, ${blue2}, ${alpha2}))`;
     body.style.background = finalGradient;
+    canvas.style.background = finalGradient;
     display.innerText = finalGradient;
 }
 function shiftFocus() {
@@ -250,7 +255,7 @@ function showAlert(text) {
     }, 2000);
 }
 
-function loadPreset(key){
+function loadPreset(key) {
     let obj = JSON.parse(localStorage.getItem(key));
     red1 = obj.storagered1;
     green1 = obj.storagegreen1;
@@ -283,9 +288,40 @@ function togglePictureInPicture() {
     if (document.pictureInPictureElement) {
         document.exitPictureInPicture();
     } else {
-      if (document.pictureInPictureEnabled) {
-        document.querySelector("container-parent").requestPictureInPicture();
-      }
+        if (document.pictureInPictureEnabled) {
+            document.querySelector("container-parent").requestPictureInPicture();
+        }
     }
-  }
-  
+}
+
+function saveAsIMG() {
+    console.log("object")
+    if (downloadType.value === 'png') {
+        domtoimage.toBlob(canvas)
+            .then(function (blob) {
+                window.saveAs(blob, `${fileName.value}.png`);
+            });
+    } else if (downloadType.value === 'jpg') {
+        domtoimage.toJpeg(canvas, { quality: 1 })
+            .then(function (dataUrl) {
+                var link = document.createElement('a');
+                link.download = `${fileName.value}.jpeg`;
+                link.href = dataUrl;
+                link.click();
+            });
+    }
+    downloadModal();
+
+}
+let flag3 = false;
+function downloadModal() {
+    if (!flag3) {
+        download.style.display = "block";
+        overlay.style.display = "block";
+        flag3 = true;
+    } else {
+        download.style.display = "none";
+        overlay.style.display = "none";
+        flag3 = false;
+    }
+}

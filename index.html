@@ -12,6 +12,8 @@
 </head>
 
 <body>
+    <div id="canvas"></div>
+    <div class="cover"></div>
     <div class="presets" id="presets">
         <div class="promptHeader">
             <h3>Presets</h3>
@@ -83,9 +85,10 @@
                 </div>
             </div>
             <textarea id="display" cols="30" rows="10" onfocus="shiftFocus()"></textarea>
-            <div>
+            <div class="button-group">
                 <button class="copy" onclick="copy()">Copy</button>
                 <button class="preset" onclick="togglePreset()">Load Presets</button>
+                <button onclick="downloadModal()"><i class="bi bi-download"></i></button>
             </div>
         </div>
     </div>
@@ -100,6 +103,23 @@
             <button onclick="addToList()">Add</button>
         </div>
     </div>
+    <div id="download" class="presets">
+        <div class="promptHeader">
+            <h3>Download</h3>
+            <i onclick="downloadModal()" class="bi bi-x-lg"></i>
+        </div>
+        <div class="preset-container section">
+            <p>Select The Output File Type : <select name="" id="download-type">
+                    <option value="png">PNG</option>
+                    <option value="jpg">JPG/JPEG</option>
+                </select>
+            </p>
+            <label for="fileName">File Name : <input type="text" placeholder="File Name..." id="fileName"></label>
+            <button onclick="saveAsIMG()">Download &nbsp;<i class="bi bi-download"></i></button>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="script.js"></script>
 </body>
 
